@@ -1,0 +1,15 @@
+{
+  "name": "test-grunt-task-flow",
+  "version": "0.0.0",
+  "description": "Test the flow of grunt tasks when listening for events.",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-git-describe": "2.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Henry Blyth",
+  "license": "MIT"
+}
