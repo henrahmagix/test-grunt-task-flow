@@ -1,35 +1,36 @@
 'use strict';
 
+var hooker = require('hooker');
+
+
 module.exports = function (grunt) {
-    grunt.initConfig({
-        'git-describe': {
-            dev: {
-                options: {
-                    cwd: '.'
-                }
-            }
-        }
+    hooker.hook(grunt.task, function (opt) {
+        // console.log(arguments);
+        // console.log(grunt.task);
+        console.log(grunt.task.current);
     });
 
-    grunt.loadNpmTasks('grunt-git-describe');
-
-    grunt.registerTask('default', ['test']);
-
+    grunt.loadNpmTasks('grunt-concurrent');
     grunt.registerTask('log', 'Log to the console.', function (message) {
         console.log(message);
     });
-
-    grunt.registerTask('one', 'log:one');
-    grunt.registerTask('two', 'log:two');
-    grunt.registerTask('three', 'log:three');
-    grunt.registerTask('four', 'log:four');
-
-    grunt.registerTask('event', 'Run a task that waits for an event.', function () {
-        grunt.event.once('git-describe', function (rev) {
-            console.log('event');
-        });
-        grunt.task.run(['git-describe:dev']);
+    grunt.registerTask('default', function () {
+        grunt.task.run('concurrent');
     });
-
-    grunt.registerTask('test', 'Test grunt task flow.', ['one', 'two', 'event', 'three', 'four']);
+    grunt.initConfig({
+        concurrent: {
+            logNo: {
+                options: {
+                    logConcurrentOutput: false
+                },
+                tasks: ['log:one', 'log:two']
+            },
+            logYes: {
+                options: {
+                    logConcurrentOutput: true
+                },
+                tasks: ['log:one', 'log:two']
+            }
+        }
+    });
 };
